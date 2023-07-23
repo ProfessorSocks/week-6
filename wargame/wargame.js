@@ -1,11 +1,4 @@
-class Card {
-    constructor(suit, value) {
-        this.suit = suit
-        this.rank = rank
-        this.value = value
 
-    }
-}
 
 suits = ['Hearts ', 'Diamonds ', 'Spades ', 'Clubs '];
 ranks = ['Ace', 'King', 'Queen', 'Jack', '10', '9', '8', '7', '6', '5', '4', '3', '2'];
@@ -16,12 +9,12 @@ class Deck {
     }
 
     addCard() {
-        for (let i = 0; i < suits.length; i++) {
-            for (let x = 0; x < ranks.length; x++) {
+        for (let i = 0; i < suits.length; i++) { // iterate through suits
+            for (let x = 0; x < ranks.length; x++) { // iterate through ranks
                 let card = {
                     suit: suits[i],
                     rank: ranks[x],
-                    value: x
+                    value: x // assigns a value so I can use it to play the game
                 }
                 this.deck.push(card)
             }
@@ -48,9 +41,6 @@ class Player {
         this.cards = [];// leaves it blank to be filled in by givePlayerCards
     }
 
-    addCardFromDeck() {
-    }
-
 }
 
 class Game {
@@ -60,47 +50,26 @@ class Game {
     }
 
 
-    start() {
-        // for (let i = 1; i < 3; i++) {///gathers name of players by using a loop till all names are gathered
-        //     let player = prompt(`Enter name of Player ${i}`)
-        //     this.players.push(new Player(player))
-        // }
-        //now I need to give out cards
-
-        this.givePlayersCards()
-    }
-
-
 
 
     givePlayersCards() {
-        // let player1 = this.players[0].cards
-        for (let i = 0; i < 26; i++) {
-            this.player1.cards.push(deck.deck[i]);
+        for (let i = 0; i < 26; i++) { // gathers cards from first 26 of deck
+            this.player1.cards.unshift(deck.deck[i]);
         }
         console.log(this.player1.cards)
-        // let player2 = this.players[1].cards
-        for (let i = 27; i < 53; i++) {
-            this.player2.cards.push(deck.deck[i]);
+        for (let i = 26; i < 52; i++) {// gather cards from second 26 of deck
+            this.player2.cards.unshift(deck.deck[i]);
         }
         console.log(this.player2.cards)
-        //now to start the game
-        this.playGame()
+
     }
-
-    // getCard(playerIndex) {
-    //     let x = Math.floor(Math.random() * this.players[playerIndex].cards.length);
-    //     let card = this.players[playerIndex].cards[x];
-    //     return card;
-    // }s
-
 
 
 
 
 
     playGame() {
-        // I want to make a systcem to randomly select from the players cards and compare them to each other
+        // I want to make a system to randomly select from the players cards and compare them to each other
         //then add that card to the winners pile
         //it must loop till one player has no cards
         //let player1Cards = this.player1.cards
@@ -116,49 +85,38 @@ class Game {
          * this.player2.cards
          * 
          */
-
+        //outside so it can be accessed outside of the loop
+        let player1points = 0
+        let player2points = 0
 
         while (this.player1.cards.length > 1 && this.player2.cards.length > 1) {
             let card1 = this.player1.cards.shift()
             let card2 = this.player2.cards.shift()
             console.log(card1.value)
-            if (card1.value == card2.value) {
+            if (card1.value === card2.value) {
                 console.log("It's a tie");
-                console.log(this.player1.name + this.player1.cards)
-                console.log(this.player2.name + this.player2.cards)
             } else if (card1.value < card2.value) {
-                //player2Cards = player2Cards.filter(item => item !== card2)
                 console.log(`${this.player1.name} won this round!`)
-                console.log(this.player1.name + this.player1.cards)
-                console.log(this.player2.name + this.player2.cards)
+                player1points += 1
+                console.log(player1points)
             } else {
-                //player1Cards = player1Cards.filter(item => item !== card1)
+                player2points += 1
+                console.log(player2points)
                 console.log(`${this.player2.name} won this round!`)
-                console.log(this.player1.name + this.player1.cards)
-                console.log(this.player2.name + this.player2.cards)
             }
 
 
         }
-        if (this.player1.cards.length > this.player2.cards.length) {
-            console.log(`${this.player1.name} won the game!!!!`);
+        //runs after the while loop to gather info from it
+        if (this.player1.cards.length > 0) {
+            console.log(`${this.player1.name} won the game with ${player1points} points!!!!`);
         } else {
-            console.log(`${this.player2.name} won the game!!!!`);
+            console.log(`${this.player2.name} won the game with ${player2points} points!!!!`);
         }
+
 
     }
 
-    // removeCardFrom1() {
-    //     let player1Cards = this.player1.cards
-    //     player1Cards = player1Cards.filter(item => item !== card1)
-    //     console.log(`${this.player1.name} won this round!`)
-    // }
-
-    // removeCardFrom2() {
-    //     let player2Cards = this.player2.cards
-    //     player2Cards = player2Cards.filter(item => item !== card2)
-    //     console.log(`${this.player2.name} won this round!`)
-    // }
 
 }
 
@@ -172,9 +130,10 @@ console.log(deck.deck)
 
 
 let game = new Game()
-game.start()
+//game.start()
 //game.getCard(0)
-//game.playGame()
+game.givePlayersCards()
+game.playGame()
 
 // let card1 = game.getCard(0)
 // let card2 = game.getCard(1)
